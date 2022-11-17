@@ -42,11 +42,12 @@ Matrix::Matrix(string fileName)
   imFile.close();
 
   //this part is for testing/debgging only
-  for (int i=0;i<3;i++){
-    for (int j=0; j<4;j++){
-        cout<<elements[i][j]<<" ";
+  //seems to bug out if you dont express in terms of rows/columns since it counts it as outside the vector already - paolo
+  for (int i = 0;i < 3;i++) {
+    for (int j = 0; j < 4;j++) {
+      cout << elements[i][j] << " ";
     }
-    cout<<endl;
+    cout << endl;
   }
 }
 

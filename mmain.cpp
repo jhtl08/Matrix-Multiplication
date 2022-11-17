@@ -10,6 +10,9 @@ using namespace std;
 int main()
 {
   Matrix A;
-  A=Matrix("x.txt");
+  Matrix B;
+  A = Matrix("matrix-file-1.txt");
+  B = Matrix("matrix-file-2.txt");
   return 0;
+  //system("pause")
 }
