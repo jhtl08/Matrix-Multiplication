@@ -19,6 +19,7 @@ Matrix::Matrix(string fileName)
   vector <double> temp_vector={};
   double temp;
   int rownum=0;
+  int colnum = 0;
 
   ifstream imFile;
   imFile.open(fileName);
@@ -31,24 +32,28 @@ Matrix::Matrix(string fileName)
 
   while(getline(imFile, line))
   {
-    std::stringstream linestream(line);
+    stringstream linestream(line);
     while(linestream>>temp)
     {
       temp_vector.push_back(temp);
+      colnum++;
     }
     elements.push_back(temp_vector);
     temp_vector.clear();
+    rownum++;
   }
   imFile.close();
 
   //this part is for testing/debgging only
-  //seems to bug out if you dont express in terms of rows/columns since it counts it as outside the vector already - paolo
-  for (int i = 0;i < 3;i++) {
-    for (int j = 0; j < 4;j++) {
+  for (int i = 0;i < rownum;i++)
+  { 
+    for (int j = 0; j < colnum/rownum;j++) 
+    {
       cout << elements[i][j] << " ";
     }
     cout << endl;
   }
+  elements.clear();
 }
 
 void Matrix::MatrixExport(Matrix mOutput, string fileName)

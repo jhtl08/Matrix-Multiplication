@@ -14,7 +14,7 @@ class Matrix
 {
   private:
     std::vector<std::vector<double>> elements;
-    int nElements;
+    int nElements = 0;
   public:
     Matrix();
   //import function
