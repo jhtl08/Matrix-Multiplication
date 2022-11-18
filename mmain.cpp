@@ -1,7 +1,7 @@
 //mmain.cpp
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 10, 2022
+//November 17, 2022
 
 #include "mmult.h"
 
@@ -11,9 +11,9 @@ int main()
 {
   Matrix A;
   Matrix B;
-  A = Matrix("matrix-file-1.txt");
+  A.MatrixImport("matrix-file-1.txt");
   cout << endl;
-  B = Matrix("matrix-file-2.txt");
+  B.MatrixImport("matrix-file-2.txt");
   
   //return 0;
   system("pause");

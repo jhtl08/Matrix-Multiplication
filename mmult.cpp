@@ -1,19 +1,14 @@
 //mmult.cpp
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 10, 2022
+//November 17, 2022
 
 #include "mmult.h"
 #include <sstream>
 
 using namespace std;
 
-Matrix::Matrix()
-{
-
-}
-
-Matrix::Matrix(string fileName)
+void Matrix::MatrixImport(string fileName)
 {
   string line;
   vector <double> temp_vector={};
@@ -56,7 +51,9 @@ Matrix::Matrix(string fileName)
   elements.clear();
 }
 
-void Matrix::MatrixExport(Matrix mOutput, string fileName)
+
+
+void Matrix::MatrixExport(string fileName)
 {// in progress
   if (fileName=="")
   {
