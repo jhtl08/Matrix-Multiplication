@@ -22,7 +22,7 @@ class Matrix
     void MatrixImport(std::string fileName);
 
   //export function
-    void MatrixExport(std::string fileName);
+    void MatrixExport(/*std::string fileName*/);
   //determines if matrices can be multiplied
     static bool yesMultiply(Matrix x, Matrix y); //not sure if I can put static here but if I remove it it gives me an error
   //operator* overload

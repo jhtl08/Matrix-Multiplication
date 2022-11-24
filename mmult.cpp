@@ -54,9 +54,18 @@ void Matrix::MatrixImport(string fileName)
 
 
 
-void Matrix::MatrixExport(string fileName)
+void Matrix::MatrixExport()
 {// in progress
-  if (fileName=="")
+  for (int i = 0;i < rows;i++)
+  {
+    for (int j = 0; j < columns;j++)
+    {
+      cout << elements[i][j] << " ";
+    }
+    cout << endl;
+  }
+  cout << endl;
+  /*if (fileName == "")
   {
     fileName="mproduct.txt";
   }
@@ -67,7 +76,7 @@ void Matrix::MatrixExport(string fileName)
     cout<<"Error: The matrix export file cannot be opened."<<endl;
   }
   //for loop omFile<<mOutput[0][0]
-  omFile.close();
+  omFile.close();*/
 }
 
 bool Matrix::yesMultiply(Matrix x, Matrix y)
@@ -83,8 +92,21 @@ bool Matrix::yesMultiply(Matrix x, Matrix y)
 }
 
 Matrix Matrix::operator*(Matrix secondMatrix)
-{ //need to determine how to code the multiplication part
+{ //haven't tested this yet
   Matrix product;
+  double currentsum = 0;
   product.rows = rows;
   product.columns = secondMatrix.columns;
+  for (int i = 0;i < product.rows;i++) //1
+  {
+    for (int j = 0; j < product.columns;j++) //3
+    {
+      for (int k = 0; k < columns; k++)
+      {
+        currentsum += elements[i][k] * secondMatrix.elements[k][j];
+      }
+      //product.elements.push_back(currentsum); <---- i dont get why this gives me an error
+    }
+  }
+  return product;
 }

@@ -11,12 +11,14 @@ int main()
 {
   Matrix A;
   Matrix B;
+  Matrix mMult;
   A.MatrixImport("matrix-file-1.txt");
   B.MatrixImport("matrix-file-2.txt");
+  //mMult = A * B;
   if (Matrix::yesMultiply(A, B))
   {
     cout << "These matrices can be multiplied!" << endl;
-    //initiate multiplication here
+    //mMult.MatrixExport();
   }
   else
   {
