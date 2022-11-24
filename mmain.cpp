@@ -12,9 +12,16 @@ int main()
   Matrix A;
   Matrix B;
   A.MatrixImport("matrix-file-1.txt");
-  cout << endl;
   B.MatrixImport("matrix-file-2.txt");
-  
+  if (Matrix::yesMultiply(A, B))
+  {
+    cout << "These matrices can be multiplied!" << endl;
+    //initiate multiplication here
+  }
+  else
+  {
+    cout << "These matrices cannot be multiplied!" << endl;
+  }
   //return 0;
   system("pause");
 }

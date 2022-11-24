@@ -13,8 +13,7 @@ void Matrix::MatrixImport(string fileName)
   string line;
   vector <double> temp_vector={};
   double temp;
-  int rownum=0;
-  int colnum = 0;
+  int totalnum = 0;
 
   ifstream imFile;
   imFile.open(fileName);
@@ -31,23 +30,25 @@ void Matrix::MatrixImport(string fileName)
     while(linestream>>temp)
     {
       temp_vector.push_back(temp);
-      colnum++;
+      totalnum++;
     }
     elements.push_back(temp_vector);
     temp_vector.clear();
-    rownum++;
+    rows++;
   }
   imFile.close();
+  columns = totalnum / rows;
 
   //this part is for testing/debgging only
-  for (int i = 0;i < rownum;i++)
+  for (int i = 0;i < rows;i++)
   { 
-    for (int j = 0; j < colnum/rownum;j++) 
+    for (int j = 0; j < columns;j++) 
     {
       cout << elements[i][j] << " ";
     }
     cout << endl;
   }
+  cout << endl;
   elements.clear();
 }
 
@@ -67,4 +68,23 @@ void Matrix::MatrixExport(string fileName)
   }
   //for loop omFile<<mOutput[0][0]
   omFile.close();
+}
+
+bool Matrix::yesMultiply(Matrix x, Matrix y)
+{
+  if (x.columns == y.rows)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+Matrix Matrix::operator*(Matrix secondMatrix)
+{ //need to determine how to code the multiplication part
+  Matrix product;
+  product.rows = rows;
+  product.columns = secondMatrix.columns;
 }

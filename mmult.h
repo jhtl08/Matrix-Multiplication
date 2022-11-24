@@ -14,8 +14,8 @@ class Matrix
 {
   private:
     std::vector<std::vector<double>> elements;
-    int rows;
-    int columns;
+    int rows = 0;
+    int columns = 0;
   public:
   
   //import function
@@ -23,13 +23,16 @@ class Matrix
 
   //export function
     void MatrixExport(std::string fileName);
+  //determines if matrices can be multiplied
+    static bool yesMultiply(Matrix x, Matrix y); //not sure if I can put static here but if I remove it it gives me an error
+  //operator* overload
+    Matrix operator*(Matrix secondMatrix);
 
 
   //add overloaded assignment operator
   //add overloaded multiplication operator
   //add detection of invalid operation
   //provide feedback on matrix sizes, imported and exported
-  //whether or not the matrices could be multiplied
   //whether or not the files could be read or written to.
 };
 
