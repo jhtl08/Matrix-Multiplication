@@ -1,7 +1,7 @@
 //mmult.h
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 17, 2022
+//November 24, 2022
 
 #ifndef MMULTHEADERDEF
 #define MMULTHEADERDEF
@@ -13,18 +13,21 @@
 class Matrix
 {
   private:
-    std::vector<std::vector<double>> elements;
-    int rows = 0;
-    int columns = 0;
+    int rows;
+    int columns;
+    double **elements;
+    
   public:
+  //constructor
+    Matrix();
   
   //import function
     void MatrixImport(std::string fileName);
 
   //export function
-    void MatrixExport(/*std::string fileName*/);
+    void MatrixExport(std::string fileName);
   //determines if matrices can be multiplied
-    static bool yesMultiply(Matrix x, Matrix y); //not sure if I can put static here but if I remove it it gives me an error
+    static bool validMult(Matrix x, Matrix y); //not sure if I can put static here but if I remove it it gives me an error
   //operator* overload
     Matrix operator*(Matrix secondMatrix);
 
@@ -33,7 +36,7 @@ class Matrix
   //add overloaded multiplication operator
   //add detection of invalid operation
   //provide feedback on matrix sizes, imported and exported
-  //whether or not the files could be read or written to.
+  //take input from terminal
 };
 
 #endif

@@ -1,29 +1,38 @@
 //mmult.cpp
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 17, 2022
+//November 24, 2022
 
 #include "mmult.h"
 #include <sstream>
 
 using namespace std;
 
+Matrix::Matrix()
+{
+  rows = 0;
+  columns = 0;
+}
+
 void Matrix::MatrixImport(string fileName)
 {
   string line;
+  vector<vector<double>> vect_elements;
   vector <double> temp_vector={};
   double temp;
   int totalnum = 0;
 
+//opens and checks the file
   ifstream imFile;
   imFile.open(fileName);
   if (!imFile.is_open())
   {
     cout<<"Error: The matrix import files cannot be opened."<<endl;
-    cout<<"Check if the files exists and try again."<<endl;
-    //make it so that it asks for the user input again in main
+    cout<<"Check the files and try again."<<endl;
+    return;
   }
 
+//extracting elements line per line
   while(getline(imFile, line))
   {
     stringstream linestream(line);
@@ -32,40 +41,35 @@ void Matrix::MatrixImport(string fileName)
       temp_vector.push_back(temp);
       totalnum++;
     }
-    elements.push_back(temp_vector);
+    vect_elements.push_back(temp_vector);
     temp_vector.clear();
-    rows++;
+    rows++; //calculates row count
   }
   imFile.close();
-  columns = totalnum / rows;
+  columns = totalnum / rows; //calculates column count
 
-  //this part is for testing/debgging only
-  for (int i = 0;i < rows;i++)
-  { 
-    for (int j = 0; j < columns;j++) 
-    {
-      cout << elements[i][j] << " ";
-    }
-    cout << endl;
+//converting vect_elements into an array
+  //allocate the memory for the array
+  elements = new double*[rows];
+  for (int i=0; i<rows; i++)
+  {
+    elements[i] = new double[columns];
   }
-  cout << endl;
-  elements.clear();
+
+  //copy the values
+  for (int i=0; i<rows; i++)
+  {
+    for (int j=0; j<columns; j++)
+    {
+      elements[i][j]=vect_elements[i][j];
+    }
+  }
 }
 
-
-
-void Matrix::MatrixExport()
-{// in progress
-  for (int i = 0;i < rows;i++)
-  {
-    for (int j = 0; j < columns;j++)
-    {
-      cout << elements[i][j] << " ";
-    }
-    cout << endl;
-  }
-  cout << endl;
-  /*if (fileName == "")
+void Matrix::MatrixExport(string fileName)
+{
+//creates or open, then checks the file
+  if (fileName == "")
   {
     fileName="mproduct.txt";
   }
@@ -74,12 +78,23 @@ void Matrix::MatrixExport()
   if (!omFile.is_open())
   {
     cout<<"Error: The matrix export file cannot be opened."<<endl;
+    cout<<"Check the files and try again."<<endl;
+    return;
   }
-  //for loop omFile<<mOutput[0][0]
-  omFile.close();*/
+
+//prints all elements into the txt file
+  for (int i=0; i<rows; i++)
+  {
+    for (int j=0; j<columns; j++)
+    {
+      omFile<<elements[i][j]<<" ";
+    }
+    omFile<<"\n";
+  }
+  omFile.close();
 }
 
-bool Matrix::yesMultiply(Matrix x, Matrix y)
+bool Matrix::validMult(Matrix x, Matrix y)
 {
   if (x.columns == y.rows)
   {
@@ -91,6 +106,7 @@ bool Matrix::yesMultiply(Matrix x, Matrix y)
   }
 }
 
+/*
 Matrix Matrix::operator*(Matrix secondMatrix)
 { //haven't tested this yet
   Matrix product;
@@ -110,3 +126,4 @@ Matrix Matrix::operator*(Matrix secondMatrix)
   }
   return product;
 }
+*/

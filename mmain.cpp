@@ -1,7 +1,7 @@
 //mmain.cpp
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 17, 2022
+//November 24, 2022
 
 #include "mmult.h"
 
@@ -15,7 +15,7 @@ int main()
   A.MatrixImport("matrix-file-1.txt");
   B.MatrixImport("matrix-file-2.txt");
   //mMult = A * B;
-  if (Matrix::yesMultiply(A, B))
+  if (Matrix::validMult(A, B))
   {
     cout << "These matrices can be multiplied!" << endl;
     //mMult.MatrixExport();
@@ -24,6 +24,7 @@ int main()
   {
     cout << "These matrices cannot be multiplied!" << endl;
   }
-  //return 0;
-  system("pause");
+  A.MatrixExport("A-test-export.txt");
+  
+  return 0;
 }
