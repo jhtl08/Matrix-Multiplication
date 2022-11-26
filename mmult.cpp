@@ -14,13 +14,13 @@ Matrix::Matrix()
   columns = 0;
 }
 
-void Matrix::MatrixImport(string fileName)
+bool Matrix::MatrixImport(string fileName)
 {
   string line;
   vector<vector<double>> vect_elements;
   vector <double> temp_vector={};
   double temp;
-  int totalnum = 0;
+  int countperrow;
 
 //opens and checks the file
   ifstream imFile;
@@ -29,24 +29,43 @@ void Matrix::MatrixImport(string fileName)
   {
     cout<<"Error: The matrix import files cannot be opened."<<endl;
     cout<<"Check the files and try again."<<endl;
-    return;
+    imFile.close();
+    return false;
   }
 
 //extracting elements line per line
   while(getline(imFile, line))
   {
+    countperrow=0;
     stringstream linestream(line);
-    while(linestream>>temp)
+    while(linestream.rdbuf()->in_avail())
     {
-      temp_vector.push_back(temp);
-      totalnum++;
+      if (linestream>>temp)
+      {
+        countperrow++;
+        if (rows==0)
+        {//sets column count to the number of elements in first row
+          columns++;
+        }
+        else if (countperrow>columns)
+        {//only gets up to "columns" number of elements per row
+          continue;
+        }
+        temp_vector.push_back(temp);
+      }
+      else
+      {
+        cout<<"Non-floating point numbers detected.\n"<<
+        "Make sure file contains only floating point numbers.\n";
+        imFile.close();
+        return false;
+      }
     }
     vect_elements.push_back(temp_vector);
     temp_vector.clear();
-    rows++; //calculates row count
+    rows++; //counts row 
   }
   imFile.close();
-  columns = totalnum / rows; //calculates column count
 
 //converting vect_elements into an array
   //allocate the memory for the array
@@ -64,6 +83,8 @@ void Matrix::MatrixImport(string fileName)
       elements[i][j]=vect_elements[i][j];
     }
   }
+
+  return true;
 }
 
 void Matrix::MatrixExport(string fileName)

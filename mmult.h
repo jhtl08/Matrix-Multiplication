@@ -22,7 +22,7 @@ class Matrix
     Matrix();
   
   //import function
-    void MatrixImport(std::string fileName);
+    bool MatrixImport(std::string fileName);
 
   //export function
     void MatrixExport(std::string fileName);

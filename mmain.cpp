@@ -12,8 +12,24 @@ int main()
   Matrix A;
   Matrix B;
   Matrix mMult;
-  A.MatrixImport("matrix-file-1.txt");
-  B.MatrixImport("matrix-file-2.txt");
+  string fileName1;
+  string fileName2;
+
+  fileName1="matrix-file-1.txt";
+  fileName2="matrix-file-2.txt";
+
+  //check for validity of elements
+  if (!A.MatrixImport(fileName1))
+  {
+    cout<<"Source of Error: "<<fileName1<<endl;
+    return 0;
+  }
+  if (!B.MatrixImport(fileName2))
+  {
+    cout<<"Source of Error: "<<fileName2<<endl;
+    return 0;
+  }
+
   //mMult = A * B;
   if (Matrix::validMult(A, B))
   {
