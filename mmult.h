@@ -1,7 +1,7 @@
 //mmult.h
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 24, 2022
+//November 26, 2022
 
 #ifndef MMULTHEADERDEF
 #define MMULTHEADERDEF
@@ -18,25 +18,29 @@ class Matrix
     double **elements;
     
   public:
-  //constructor
+  //empty constructor
     Matrix();
-  
+
+  //non-empty constructor
+    Matrix(int inputRows, int inputColumns);
+
   //import function
     bool MatrixImport(std::string fileName);
 
   //export function
     void MatrixExport(std::string fileName);
+
   //determines if matrices can be multiplied
-    static bool validMult(Matrix x, Matrix y); //not sure if I can put static here but if I remove it it gives me an error
+    bool canMultwith(Matrix y);
+  
+  //operator= overload
+    Matrix& operator=(const Matrix& Matrix2);
+
   //operator* overload
-    Matrix operator*(Matrix secondMatrix);
+    Matrix operator*(const Matrix& secondMatrix) const;
 
-
-  //add overloaded assignment operator
-  //add overloaded multiplication operator
-  //add detection of invalid operation
-  //provide feedback on matrix sizes, imported and exported
-  //take input from terminal
+  //provide feedback about matrix properties
+    std::string MatrixSize();
 };
 
 #endif

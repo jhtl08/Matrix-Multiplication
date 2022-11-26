@@ -1,7 +1,7 @@
 //mmult.cpp
 //Kyle Coloma, Jason Lorenzo, Paolo Ong
 //ENGG 31-N
-//November 24, 2022
+//November 26, 2022
 
 #include "mmult.h"
 #include <sstream>
@@ -14,6 +14,17 @@ Matrix::Matrix()
   columns = 0;
 }
 
+Matrix::Matrix(int inputRows, int inputColumns)
+{
+  rows=inputRows;
+  columns=inputColumns;
+  elements=new double*[rows];
+  for (int i=0; i<rows; i++)
+  {
+    elements[i]=new double[columns];
+  }
+}
+
 bool Matrix::MatrixImport(string fileName)
 {
   string line;
@@ -21,15 +32,15 @@ bool Matrix::MatrixImport(string fileName)
   vector <double> temp_vector={};
   double temp;
   int countperrow;
+  string nonfloats;
 
 //opens and checks the file
   ifstream imFile;
   imFile.open(fileName);
   if (!imFile.is_open())
   {
-    cout<<"Error: The matrix import files cannot be opened."<<endl;
-    cout<<"Check the files and try again."<<endl;
     imFile.close();
+    cout<<fileName<<" cannot be opened."<<endl;
     return false;
   }
 
@@ -41,7 +52,7 @@ bool Matrix::MatrixImport(string fileName)
     while(linestream.rdbuf()->in_avail())
     {
       if (linestream>>temp)
-      {
+      {//if the next element is double
         countperrow++;
         if (rows==0)
         {//sets column count to the number of elements in first row
@@ -53,13 +64,24 @@ bool Matrix::MatrixImport(string fileName)
         }
         temp_vector.push_back(temp);
       }
-      else
-      {
-        cout<<"Non-floating point numbers detected.\n"<<
-        "Make sure file contains only floating point numbers.\n";
+      else if(countperrow==0 && columns==0)
+      {//if the first term is nonfloat
+        cout<<"First element of "<<fileName<<" is invalid.\n";
         imFile.close();
         return false;
       }
+      else
+      {//if nonfloats are encountered
+        linestream.clear();
+        linestream>>nonfloats;
+        break; //stops checking the row further and proceeds to next
+      }
+    }
+    //discards extra rows with columns less than of the first row's
+    if (countperrow<columns)
+    {
+      temp_vector.clear();
+      continue;
     }
     vect_elements.push_back(temp_vector);
     temp_vector.clear();
@@ -83,17 +105,12 @@ bool Matrix::MatrixImport(string fileName)
       elements[i][j]=vect_elements[i][j];
     }
   }
-
   return true;
 }
 
 void Matrix::MatrixExport(string fileName)
 {
 //creates or open, then checks the file
-  if (fileName == "")
-  {
-    fileName="mproduct.txt";
-  }
   ofstream omFile;
   omFile.open(fileName);
   if (!omFile.is_open())
@@ -108,16 +125,16 @@ void Matrix::MatrixExport(string fileName)
   {
     for (int j=0; j<columns; j++)
     {
-      omFile<<elements[i][j]<<" ";
+      omFile<<elements[i][j]<<" \t";
     }
     omFile<<"\n";
   }
   omFile.close();
 }
 
-bool Matrix::validMult(Matrix x, Matrix y)
+bool Matrix::canMultwith(Matrix y)
 {
-  if (x.columns == y.rows)
+  if (columns == y.rows)
   {
     return true;
   }
@@ -127,24 +144,36 @@ bool Matrix::validMult(Matrix x, Matrix y)
   }
 }
 
-/*
-Matrix Matrix::operator*(Matrix secondMatrix)
-{ //haven't tested this yet
-  Matrix product;
-  double currentsum = 0;
-  product.rows = rows;
-  product.columns = secondMatrix.columns;
-  for (int i = 0;i < product.rows;i++) //1
+Matrix& Matrix::operator=(const Matrix& Matrix2)
+{
+  rows=Matrix2.rows;
+  columns=Matrix2.columns;
+  elements=Matrix2.elements;
+  return *this;
+}
+
+Matrix Matrix::operator*(const Matrix& Matrix2) const
+{
+  //initialize the product matrix
+  Matrix mProduct=Matrix(rows, Matrix2.columns);
+
+  for (int i=0; i<rows; i++)
   {
-    for (int j = 0; j < product.columns;j++) //3
+    for (int j=0; j<Matrix2.columns; j++)
     {
-      for (int k = 0; k < columns; k++)
+      for (int k=0; k<columns; k++)
       {
-        currentsum += elements[i][k] * secondMatrix.elements[k][j];
+        mProduct.elements[i][j] += elements[i][k]
+        *Matrix2.elements[k][j];
       }
-      //product.elements.push_back(currentsum); <---- i dont get why this gives me an error
     }
   }
-  return product;
+  return mProduct;
 }
-*/
+
+string Matrix::MatrixSize()
+{
+  string mSize;
+  mSize = to_string(rows) + " x " + to_string(columns);
+  return mSize; 
+}
